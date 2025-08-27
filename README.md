@@ -4,3 +4,4 @@ MetaTango is a pipeline designed to evaluate structural variant calling in pipel
 
 
 ### Workflow
+![MetaTango Workflow](https://github.com/collaborativebioinformatics/MetaTango/blob/main/MetaTango_Workflow_v1.png)
