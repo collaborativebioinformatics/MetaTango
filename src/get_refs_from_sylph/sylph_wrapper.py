@@ -1,6 +1,7 @@
 import subprocess
 import pathlib
 import os
+import pandas as pd
 
 class SylphWrapper:
 
@@ -14,9 +15,12 @@ class SylphWrapper:
         result = subprocess.run(cmd, check=True, capture_output=capture_output, text=True)
         return result.stdout if capture_output else None
     
-    def set_gtdb_database_path():
+    def set_gtdb_database_path(self,gtdb_path_name,gtdb_name,gtdb_c):
         # TODO: function to update inbuilt path value using string
-        pass
+        """set parameters to existing path"""
+        self.gtdb_data_info['path_val'] = gtdb_path_name
+        self.gtdb_data_info['name'] = gtdb_name
+        self.gtdb_data_info['c'] = gtdb_c
 
     def get_gtdb_database(self,name : str = 'r214',c_val : int = 200, wget_save_dir = './data_files/'):
         """
@@ -72,8 +76,11 @@ class SylphWrapper:
         self.profile_tsv = result_tsv_path
     
     def get_taxonomy(self,tax_results_name):
-        """sylph profile only gives genomic outputs that need to be integrated
-        with the taxonomy from GTDB"""
+        """
+        sylph profile only gives genomic outputs that need to be integrated
+        with the taxonomy from GTDB
+        outputs a new file called prefix_MYSAMPLENAME.sylphmpa for each sample in the results file
+        """
 
         # ASSUMING THAT THIS HAS BEEN DONE BEFORE:
         # mkdir taxonomy_file_folder
@@ -94,6 +101,17 @@ class SylphWrapper:
 
         self.taxonomy_tsv = tax_results_name
 
+    def get_gtdb_strain(self,symph_file):
+        """get set of the gtdb strains from the output of sylph-tax"""
+        
+        symph_tax_df = pd.read_csv(symph_file,sep='\t', comment='#')
+        clade_lst = list(symph_tax_df['clade_name'].values)
+        # Split by '|' and take the part starting with 't__'
+        find_strain_from_t = lambda s : [x for x in s.split('|') if x.startswith('t__')][0].replace('t__', '')        
+        strain_lst = [find_strain_from_t(v) for v in clade_lst]
+        strain_set = set(strain_lst)       
+        return strain_set
+
     def convert_taxonomy_gtdb_to_ncbi(self):
         pass
 
@@ -103,4 +121,4 @@ class ReferenceDownloadWrapper():
 if __name__ == "__main__":
 
     wrapper = SylphWrapper()
-    # wrapper.get_gtdb_database(name="r214", c_val=200)
+    wrapper.get_gtdb_database(name="r214", c_val=200)
