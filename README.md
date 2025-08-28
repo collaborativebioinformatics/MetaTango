@@ -24,7 +24,7 @@ In order to effectively evaluate the performance of graph-based and reference-ba
 | *Neisseria meningitidis* (ATCC BAA-335)   | 16.66%            | TBD               |
 **Table 1.** Bacterial species contained within simulated samples and their HGT mutation rate.
 
-![MetaTango Workflow](https://github.com/collaborativebioinformatics/MetaTango/blob/main/Metagenomic_simulation.png)
+![MetaTango Simulation Overview](https://github.com/collaborativebioinformatics/MetaTango/blob/main/Metagnomic_simulation.png)
 **Figure 2** Overview of simulation process
 
 #### Initial taxonomic classification and reference selection
