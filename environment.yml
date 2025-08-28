@@ -1,0 +1,20 @@
+name: metatango
+channels:
+  - bioconda
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.10
+  - numpy
+  - pandas
+  - networkx>=3.2
+  - seaborn
+  - flye
+  - minigraph
+  - minimap2
+  - sniffles=2.6.3
+  - pbsim3
+  - sylph
+  - pip
+  - pip:
+      - HgtSIM
