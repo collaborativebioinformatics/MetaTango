@@ -2,13 +2,13 @@
 
 MetaTango is a pipeline designed to evaluate structural variant calling in pipelines in microbiomes. Specifically, MetaTango compares reference-based structural variant tools (Sniffles) and graph-based structural variant tools (Rhea) to determine which method is better in different situations. 
 
-![MetaTango Logo](https://github.com/collaborativebioinformatics/MetaTango/blob/main/metatango_logo_v1.png)
+![MetaTango Logo](https://github.com/collaborativebioinformatics/MetaTango/blob/main/img/metatango_logo_v1.png)
 
 ### Background
 Studying bacterial genome dynamics is critical for understanding the mechanisms of bacterial growth, adaptation, and phenotypic expression. Structural variants, large genomic rearrangements of 50 basepairs or more. 
 
 ### Workflow
-![MetaTango Workflow](https://github.com/collaborativebioinformatics/MetaTango/blob/main/MetaTango_Workflow_v1.png)
+![MetaTango Workflow](https://github.com/collaborativebioinformatics/MetaTango/blob/main/img/MetaTango_Workflow_v1.png)
 **Figure 1** Overview of MetaTango Workflow
 
 ### Methods
@@ -26,7 +26,7 @@ In order to effectively evaluate the performance of graph-based and reference-ba
 | *Neisseria meningitidis* (ATCC BAA-335)   | 16.66%            | TBD               |
 **Table 1.** Bacterial species contained within simulated samples and their HGT mutation rate.
 
-![MetaTango Simulation Overview](https://github.com/collaborativebioinformatics/MetaTango/blob/main/Metagnomic_simulation.png)
+![MetaTango Simulation Overview](https://github.com/collaborativebioinformatics/MetaTango/blob/main/img/Metagnomic_simulation.png)
 **Figure 2** Overview of simulation process
 
 #### Initial taxonomic classification and reference selection
