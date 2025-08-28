@@ -2,6 +2,8 @@
 
 MetaTango is a pipeline designed to evaluate structural variant calling in pipelines in microbiomes. Specifically, MetaTango compares reference-based structural variant tools (Sniffles) and graph-based structural variant tools (Rhea) to determine which method is better in different situations. 
 
+![MetaTango Logo](https://github.com/collaborativebioinformatics/MetaTango/blob/main/metatango_logo_v1.png)
+
 ### Background
 Studying bacterial genome dynamics is critical for understanding the mechanisms of bacterial growth, adaptation, and phenotypic expression. Structural variants, large genomic rearrangements of 50 basepairs or more. 
 
