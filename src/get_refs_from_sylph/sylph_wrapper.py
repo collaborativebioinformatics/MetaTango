@@ -1,6 +1,7 @@
 import subprocess
 import pathlib
 import os
+import pandas as pd
 
 class SylphWrapper:
 
@@ -9,14 +10,18 @@ class SylphWrapper:
         self.sylph_to_tax = "sylph-tax"
         self.gtdb_data_info = {'path_val' : None, 'name' : None, 'c' : None}
         self.profile_tsv = None
+        self.gtdb_taxon_tsv = None
 
     def run_cmd(self, cmd, capture_output=False):
         result = subprocess.run(cmd, check=True, capture_output=capture_output, text=True)
         return result.stdout if capture_output else None
     
-    def set_gtdb_database_path():
+    def set_gtdb_database_path(self,gtdb_path_name,gtdb_name,gtdb_c):
         # TODO: function to update inbuilt path value using string
-        pass
+        """set parameters to existing path"""
+        self.gtdb_data_info['path_val'] = gtdb_path_name
+        self.gtdb_data_info['name'] = gtdb_name
+        self.gtdb_data_info['c'] = gtdb_c
 
     def get_gtdb_database(self,name : str = 'r214',c_val : int = 200, wget_save_dir = './data_files/'):
         """
@@ -72,8 +77,11 @@ class SylphWrapper:
         self.profile_tsv = result_tsv_path
     
     def get_taxonomy(self,tax_results_name):
-        """sylph profile only gives genomic outputs that need to be integrated
-        with the taxonomy from GTDB"""
+        """
+        sylph profile only gives genomic outputs that need to be integrated
+        with the taxonomy from GTDB
+        outputs a new file called prefix_MYSAMPLENAME.sylphmpa for each sample in the results file
+        """
 
         # ASSUMING THAT THIS HAS BEEN DONE BEFORE:
         # mkdir taxonomy_file_folder
@@ -94,8 +102,32 @@ class SylphWrapper:
 
         self.taxonomy_tsv = tax_results_name
 
-    def convert_taxonomy_gtdb_to_ncbi(self):
-        pass
+    def gtdb_syl_to_tsv(self,symph_file):
+        """get set of the gtdb strains from the output of sylph-tax"""
+
+        symph_tax_df = pd.read_csv(symph_file,sep='\t', comment='#')
+        symph_tax_df['gtdb_taxonomy'] = symph_tax_df['clade_name'].str.replace('|',';')
+        tsv_file = symph_file.replace('.sylphmpa','.tsv')
+        symph_tax_df.to_csv(tsv_file,sep='\t',index=None)
+
+        self.gtdb_taxon_tsv = tsv_file
+
+    def convert_taxonomy_gtdb_to_ncbi(self,symph_file):
+        """
+        use gtdb_to_taxdump.py to convert gtdb strains to ncbi format
+        """
+        # this keeps giving me errors!!!
+        self.gtdb_syl_to_tsv(symph_file)
+
+        gtdb_link_ar = "https://data.gtdb.ecogenomic.org/releases/release220/220.0/ar53_metadata_r220.tar.gz"
+        gtdb_link_bac = "https://data.gtdb.ecogenomic.org/releases/release220/220.0/bac120_metadata_r220.tar.gz"
+
+        self.run_cmd([
+            "python", "ncbi-gtdb_map.py","-q", "gtdb_taxonomy",
+            self.gtdb_taxon_tsv,
+            "-c", "gtdb_taxonomy",
+            f'{gtdb_link_ar} {gtdb_link_bac}'
+        ])
 
 class ReferenceDownloadWrapper():
     pass
@@ -104,3 +136,4 @@ if __name__ == "__main__":
 
     wrapper = SylphWrapper()
     # wrapper.get_gtdb_database(name="r214", c_val=200)
+    wrapper.convert_taxonomy_gtdb_to_ncbi('./github_sample_gtdb_tax.sylphmpa')
