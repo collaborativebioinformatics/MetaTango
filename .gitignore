@@ -1,4 +1,4 @@
 *.ipynb*
 github_sample_gtdb*
 data/
-sylph_wrapper_outs_ignore/
+src/sylph_wrapper_outs_ignore/
