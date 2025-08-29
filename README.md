@@ -50,12 +50,12 @@ In order to effectively evaluate the performance of graph-based and reference-ba
 
 | Bacterial Species                         | Percent abundance | HGT mutation rate |
 |-------------------------------------------|-------------------|-------------------|
-| *Escherichia coli* (ATCC 700926)          | 16.66%            | TBD               |
-| *Staphylococcus epidermidis* (ATCC 12228) | 16.66%            | TBD               |
-| *Streptococcus mutans* (ATCC 700610)      | 16.66%            | TBD               |
-| *Porphyromonas gingivalis* (ATCC 33277)   | 16.66%            | TBD               |
-| *Cereibacter sphaeroides* (ATCC 17029)    | 16.66%            | TBD               |
-| *Neisseria meningitidis* (ATCC BAA-335)   | 16.66%            | TBD               |
+| *Escherichia coli* (ATCC 700926)          | 16.66%            | 10%               |
+| *Staphylococcus epidermidis* (ATCC 12228) | 16.66%            | 10%               |
+| *Streptococcus mutans* (ATCC 700610)      | 16.66%            | 10%               |
+| *Porphyromonas gingivalis* (ATCC 33277)   | 16.66%            | 10%               |
+| *Cereibacter sphaeroides* (ATCC 17029)    | 16.66%            | 10%               |
+| *Neisseria meningitidis* (PartJ-Nmeningitidis-RM8376)   | 16.66%            | 10%               |
 **Table 1.** Bacterial species contained within simulated samples and their HGT mutation rate.
 
 ![MetaTango Simulation Overview](https://github.com/collaborativebioinformatics/MetaTango/blob/main/img/Metagnomic_simulation.png)
