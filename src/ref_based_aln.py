@@ -78,7 +78,7 @@ def main():
 
     sniffles_vcf = f"results/{sp}_sv_calls.vcf"
     # running sniffles
-    snif_options = ["--minsupport", "3", "--mapq", "10", "--minsvlen", "50", "--allow-overwrite"]
+    snif_options = ["--minsupport", "3", "--mapq", "10", "--minsvlen", "50", "--genotype-ploidy", "1", "--allow-overwrite"]
     run_cmd(["sniffles"] + snif_options + ["-t", proc, "--input", output_bam, "--vcf", sniffles_vcf])
 
 if __name__ == "__main__":
