@@ -7,6 +7,11 @@ It provides a direct comparison between **reference-based** methods (e.g., Sniff
 
 ![MetaTango Logo](https://github.com/collaborativebioinformatics/MetaTango/blob/main/img/metatango_logo_v1.png)
 
+
+## Slides:
+If you want to see our slides, check here:
+[MetaTango Hackathon Slides](https://docs.google.com/presentation/d/1x4vynogMJxUEtn7epWnm7PmspWcWUX_RqV_KffVWkLY/edit?slide=id.g3791c9a4996_0_18#slide=id.g3791c9a4996_0_18)
+
 ## Background
 Structural variants play a crucial role in microbial evolution and adaptation (https://pubmed.ncbi.nlm.nih.gov/21298028/). MetaTango simulates **time-series metagenomic communities** with controlled **Horizontal Gene Transfer (HGT)** events, enabling a direct point of comparison of reference-guided and graph-based metagenomic SV callers to show the pros and cons of each approach.
 
