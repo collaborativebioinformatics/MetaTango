@@ -127,6 +127,7 @@ dependencies:
   - statsmodels=0.14.1
   - sylph=0.8.1
   - tk=8.6.13
+  - truvari=5.3.0
   - unicodedata2=15.1.0
   - urllib3=2.2.3
   - wget=1.21.4
