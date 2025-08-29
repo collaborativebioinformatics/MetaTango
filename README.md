@@ -72,7 +72,11 @@ Raw longitudinal samples were input into Rhea (Curry et al., 2024) for the graph
 
 
 ## Running MetaTango
-
+Running Rhea pipeline:
+```bash
+python make_vcf_and_detect_hgts.py t0.fq t1.fq --refs_folder path/to/reference/genomes
+```
+If you would like to change Rhea settings, you can use the flag `--rhea_flags` before adding Rhea flags. 
 
 ## Example Results
 
