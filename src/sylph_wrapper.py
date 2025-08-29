@@ -131,5 +131,5 @@ if __name__ == "__main__":
 
     wrapper = SylphWrapper()
     # wrapper.get_gtdb_database(name="r214", c_val=200)
-    wrapper.convert_taxonomy_gtdb_to_ncbi('./get_refs_from_sylph/github_sample_gtdb_tax.sylphmpa')
+    wrapper.convert_taxonomy_gtdb_to_ncbi('./sylph_wrapper_outs_ignore/github_sample_gtdb_tax.sylphmpa')
     wrapper.fetch_refs_from_ncbi()
