@@ -46,8 +46,12 @@ Raw longitudinal samples were input into Rhea (Curry et al., 2024) for the graph
 
 
 ### References
-Curry, K. D., Yu, F. B., Vance, S. E., Segarra, S., Bhaya, D., Chikhi, R., Rocha, E. P. C., & Treangen, T. J. (2024). Reference-free structural variant detection in microbiomes via long-read co-assembly graphs. Bioinformatics (Oxford, England), 40(Suppl 1), i58–i67.
-Li, H. (2018). Minimap2: pairwise alignment for nucleotide sequences. Bioinformatics (Oxford, England), 34(18), 3094–3100.
-Li, H. (2021). New strategies to improve minimap2 alignment accuracy. Bioinformatics (Oxford, England), 37(23), 4572–4574.
-Shaw, J., & Yu, Y. W. (2025). Rapid species-level metagenome profiling and containment estimation with sylph. Nature Biotechnology, 43(8), 1348–1359.
-Smolka, M., Paulin, L. F., Grochowski, C. M., Horner, D. W., Mahmoud, M., Behera, S., Kalef-Ezra, E., Gandhi, M., Hong, K., Pehlivan, D., Scholz, S. W., Carvalho, C. M. B., Proukakis, C., & Sedlazeck, F. J. (2024). Publisher Correction: Detection of mosaic and population-level structural variants with Sniffles2. Nature Biotechnology, 42(10), 1616.
+1. Curry, K. D., Yu, F. B., Vance, S. E., Segarra, S., Bhaya, D., Chikhi, R., Rocha, E. P. C., & Treangen, T. J. (2024). Reference-free structural variant detection in microbiomes via long-read co-assembly graphs. Bioinformatics (Oxford, England), 40(Suppl 1), i58–i67.
+   
+2. Li, H. (2018). Minimap2: pairwise alignment for nucleotide sequences. Bioinformatics (Oxford, England), 34(18), 3094–3100.
+
+3. Li, H. (2021). New strategies to improve minimap2 alignment accuracy. Bioinformatics (Oxford, England), 37(23), 4572–4574.
+
+4. Shaw, J., & Yu, Y. W. (2025). Rapid species-level metagenome profiling and containment estimation with sylph. Nature Biotechnology, 43(8), 1348–1359.
+
+5. Smolka, M., Paulin, L. F., Grochowski, C. M., Horner, D. W., Mahmoud, M., Behera, S., Kalef-Ezra, E., Gandhi, M., Hong, K., Pehlivan, D., Scholz, S. W., Carvalho, C. M. B., Proukakis, C., & Sedlazeck, F. J. (2024). Publisher Correction: Detection of mosaic and population-level structural variants with Sniffles2. Nature Biotechnology, 42(10), 1616.
