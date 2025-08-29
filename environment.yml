@@ -53,7 +53,6 @@ dependencies:
   - libgfortran5=15.1.0
   - libiconv=1.18
   - libidn2=2.3.8
-  - libintl=0.25.1
   - libjpeg-turbo=3.1.0
   - liblapack=3.9.0
   - liblzma=5.8.1
