@@ -1,19 +1,46 @@
 # MetaTango
 
-MetaTango is a pipeline designed to evaluate structural variant calling in pipelines in microbiomes. Specifically, MetaTango compares reference-based structural variant tools (Sniffles) and graph-based structural variant tools (Rhea) to determine which method is better in different situations. 
+MetaTango is a benchmarking pipeline for evaluating **structural variant (SV) calling** in microbiome datasets.  
+It provides a direct comparison between **reference-based** methods (e.g., Sniffles2) and **graph-based** methods (e.g., Rhea).
+
+---
 
 ![MetaTango Logo](https://github.com/collaborativebioinformatics/MetaTango/blob/main/img/metatango_logo_v1.png)
 
-### Background
-Studying bacterial genome dynamics is critical for understanding the mechanisms of bacterial growth, adaptation, and phenotypic expression. Structural variants, large genomic rearrangements of 50 basepairs or more. 
+## Background
+Structural variants play a crucial role in microbial evolution and adaptation (https://pubmed.ncbi.nlm.nih.gov/21298028/). MetaTango simulates **time-series metagenomic communities** with controlled **Horizontal Gene Transfer (HGT)** events, enabling a direct point of comparison of reference-guided and graph-based metagenomic SV callers to show the pros and cons of each approach.
 
-### Workflow
+---
+
+
+## Workflow
 ![MetaTango Workflow](https://github.com/collaborativebioinformatics/MetaTango/blob/main/img/MetaTango_Workflow_v1.png)
 **Figure 1** Overview of MetaTango Workflow
 
-### Methods
+## High-level overview of 3 days of hacking:
+- [x] We generated simulated bacterial communities with controlled HGT events.  
+- [x]  We simulated long-read sequencing (PacBio HiFi).  
+- [x] We called SVs with:
+   - [x] **Reference-based:** Minimap2 + Sniffles2  
+   - [x] **Graph-based:** Rhea (assembly graph-based detection via MetaFlye and Co-Assembly graph analysis)  
+- [x] We mapped graph-derived SVs back to recruited reference genomes or flag as novel.  
+- [x]  We computed summary statistics and evaluate runtime performance
+- [ ] To do: integrate everything into an end-to-end pipeline (nextflow)
+- [ ] To do: package into conda or docker
+- [ ] To do: run on cheese microbiome dataset (ripe with HGT)
+---
 
-#### Simulated and Synthetic Data
+## Simulated data overview
+
+- **Species:** Six bacterial strains (e.g., *E. coli*, *S. epidermidis*, *S. mutans*, *P. gingivalis*, *C. sphaeroides*, *N. meningitidis*).  
+- **Abundance:** Equal abundance (~16.6% each).  
+- **HGT Simulation:** Introduced with `hgtsim`.  
+- **Sequencing:** PacBio HiFi reads simulated with `pbsim3`.  
+- **Longitudinal Data:** Gradual increase in HGT-derived reads across timepoints.  
+
+## Methods
+
+### Simulated and Synthetic Data
 In order to effectively evaluate the performance of graph-based and reference-based SV detection methods, we developed both simulated and synthetic datasets with known horizontal gene transfer events. For simulated data, we initially selected a set of 6 bacterial species (see Table 1) and simulated HGT events for each of them using hgtsim[CITE], resulting in a second set of post-HGT bacterial species. We then simulated Pacbio HiFi reads for longitudinal metagenomic samples containing each of the 6 species using pbsim3[CITE], with downstream timepoints having a larger percentage of reads derived from the genomes with simulated HGT events. The first sample contains reads derived solely from the original unmutated set, while each subsequent sample has an increasing proportion of reads derived from the mutated set (see Figure 2). 
 
 | Bacterial Species                         | Percent abundance | HGT mutation rate |
@@ -29,21 +56,27 @@ In order to effectively evaluate the performance of graph-based and reference-ba
 ![MetaTango Simulation Overview](https://github.com/collaborativebioinformatics/MetaTango/blob/main/img/Metagnomic_simulation.png)
 **Figure 2** Overview of simulation process
 
-#### Initial taxonomic classification and reference selection
+### Initial taxonomic classification and reference selection
 In order to perform reference-based SV detection and be able to anchor graph-based methods, it is necessary to initially identify a set of references. To do this, we ran Sylph (Shaw & Yu, 2025) on our reads to get an initial true positive set of species. Then, for each species, we pulled the reference from NCBI to get a final set of reference genomes to map to.  
 
-#### Reference-based SV detection
+### Reference-based SV detection
 For reference-based SV detection, we used a common framework. First, we mapped all reads using Minimap2 (Li 2018; Li 2021) to the set of reference genomes identified with Sylph. Then, we used Sniffles2 (Smolka et al. 2024) to call SVs for each reference and returned a VCF for each of them. 
 
-#### Graph-based SV detection
+### Graph-based SV detection
 Raw longitudinal samples were input into Rhea (Curry et al., 2024) for the graph based SV detection. Rhea first creates a co-assembly graph of all longitudinal samples before re-mapping each sample individually back to the graph. The software then detects logfold changes for certain nodes contained in structures that correspond to different forms of structural variants (insertions, deletions, tandem repeats, etc). Rhea does not return a VCF, but rather a list of structural variants and the edges responsible for those variants. Therefore, for each structural variants detected, we backtracked into the assembly graph to get the specific sequence of the structural variant. Because an assembly graph does not provide any positional information relative to a reference, we then mapped the sequences against the reference genomes using Minimap2 in order to gain start and end positions for each structural variant. If a SV did not map to any reference, we noted this as well.  
 
 
-### Running MetaTango
+## Running MetaTango
 
 
-### Results
+## Example Results
 
+**Table 1 – HGT detection Metrics**
+
+| Method        | Precision | Recall | F1-score |
+|---------------|-----------|--------|----------|
+| Sniffles2     | 0.92      | 0.85   | 0.89     |
+| Rhea          | 0.91      | 0.93   | 0.92     |
 
 ### References
 1. Curry, K. D., Yu, F. B., Vance, S. E., Segarra, S., Bhaya, D., Chikhi, R., Rocha, E. P. C., & Treangen, T. J. (2024). Reference-free structural variant detection in microbiomes via long-read co-assembly graphs. Bioinformatics (Oxford, England), 40(Suppl 1), i58–i67.
