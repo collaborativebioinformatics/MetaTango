@@ -10,7 +10,7 @@ class SylphWrapper:
         self.sylph_to_tax = "sylph-tax"
         self.gtdb_data_info = {'path_val' : None, 'name' : None, 'c' : None}
         self.profile_tsv = None
-        self.gtdb_taxon_tsv = None
+        self.ncbi_accession_file = None
 
     def run_cmd(self, cmd, capture_output=False):
         result = subprocess.run(cmd, check=True, capture_output=capture_output, text=True)
@@ -102,38 +102,34 @@ class SylphWrapper:
 
         self.taxonomy_tsv = tax_results_name
 
-    def gtdb_syl_to_tsv(self,symph_file):
-        """get set of the gtdb strains from the output of sylph-tax"""
-
-        symph_tax_df = pd.read_csv(symph_file,sep='\t', comment='#')
-        symph_tax_df['gtdb_taxonomy'] = symph_tax_df['clade_name'].str.replace('|',';')
-        tsv_file = symph_file.replace('.sylphmpa','.tsv')
-        symph_tax_df.to_csv(tsv_file,sep='\t',index=None)
-
-        self.gtdb_taxon_tsv = tsv_file
-
     def convert_taxonomy_gtdb_to_ncbi(self,symph_file):
         """
         use gtdb_to_taxdump.py to convert gtdb strains to ncbi format
         """
-        # this keeps giving me errors!!!
-        self.gtdb_syl_to_tsv(symph_file)
+        symph_tax_df = pd.read_csv(symph_file,sep='\t', comment='#')
+        symph_tax_df['gtdb_taxonomy'] = symph_tax_df['clade_name'].str.replace('|',';')
+        symph_tax_df_t = symph_tax_df['clade_name'][symph_tax_df['clade_name'].str.contains('t__')]
+        get_gcs_from_symph = symph_tax_df_t.map(lambda v : v.split('t__')[-1])
 
-        gtdb_link_ar = "https://data.gtdb.ecogenomic.org/releases/release220/220.0/ar53_metadata_r220.tar.gz"
-        gtdb_link_bac = "https://data.gtdb.ecogenomic.org/releases/release220/220.0/bac120_metadata_r220.tar.gz"
+        acc_filenm = symph_file.replace('.sylphmpa','.txt')
+        get_gcs_from_symph.drop_duplicates().to_csv(acc_filenm, index=False, header=False)
 
-        self.run_cmd([
-            "python", "ncbi-gtdb_map.py","-q", "gtdb_taxonomy",
-            self.gtdb_taxon_tsv,
-            "-c", "gtdb_taxonomy",
-            f'{gtdb_link_ar} {gtdb_link_bac}'
-        ])
+        self.ncbi_accession_file = acc_filenm\
+    
+    def fetch_refs_from_ncbi(self,output_zipfile=None):
+        cmd_lst = [
+                "datasets", "download", "genome","accession",
+                "--inputfile", self.ncbi_accession_file,
+            ]
+        
+        if output_zipfile is not None:
+            cmd_lst = cmd_lst + ["--filename", output_zipfile]
 
-class ReferenceDownloadWrapper():
-    pass
+        self.run_cmd(cmd_lst)
 
 if __name__ == "__main__":
 
     wrapper = SylphWrapper()
     # wrapper.get_gtdb_database(name="r214", c_val=200)
-    wrapper.convert_taxonomy_gtdb_to_ncbi('./github_sample_gtdb_tax.sylphmpa')
+    wrapper.convert_taxonomy_gtdb_to_ncbi('./get_refs_from_sylph/github_sample_gtdb_tax.sylphmpa')
+    wrapper.fetch_refs_from_ncbi()
