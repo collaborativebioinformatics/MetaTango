@@ -10,6 +10,7 @@ class SylphWrapper:
         self.sylph_to_tax = "sylph-tax"
         self.gtdb_data_info = {'path_val' : None, 'name' : None, 'c' : None}
         self.profile_tsv = None
+        self.gtdb_taxon_tsv = None
 
     def run_cmd(self, cmd, capture_output=False):
         result = subprocess.run(cmd, check=True, capture_output=capture_output, text=True)
@@ -101,19 +102,32 @@ class SylphWrapper:
 
         self.taxonomy_tsv = tax_results_name
 
-    def get_gtdb_strain(self,symph_file):
+    def gtdb_syl_to_tsv(self,symph_file):
         """get set of the gtdb strains from the output of sylph-tax"""
-        
-        symph_tax_df = pd.read_csv(symph_file,sep='\t', comment='#')
-        clade_lst = list(symph_tax_df['clade_name'].values)
-        # Split by '|' and take the part starting with 't__'
-        find_strain_from_t = lambda s : [x for x in s.split('|') if x.startswith('t__')][0].replace('t__', '')        
-        strain_lst = [find_strain_from_t(v) for v in clade_lst]
-        strain_set = set(strain_lst)       
-        return strain_set
 
-    def convert_taxonomy_gtdb_to_ncbi(self):
-        pass
+        symph_tax_df = pd.read_csv(symph_file,sep='\t', comment='#')
+        symph_tax_df['gtdb_taxonomy'] = symph_tax_df['clade_name'].str.replace('|',';')
+        tsv_file = symph_file.replace('.sylphmpa','.tsv')
+        symph_tax_df.to_csv(tsv_file,sep='\t',index=None)
+
+        self.gtdb_taxon_tsv = tsv_file
+
+    def convert_taxonomy_gtdb_to_ncbi(self,symph_file):
+        """
+        use gtdb_to_taxdump.py to convert gtdb strains to ncbi format
+        """
+        # this keeps giving me errors!!!
+        self.gtdb_syl_to_tsv(symph_file)
+
+        gtdb_link_ar = "https://data.gtdb.ecogenomic.org/releases/release220/220.0/ar53_metadata_r220.tar.gz"
+        gtdb_link_bac = "https://data.gtdb.ecogenomic.org/releases/release220/220.0/bac120_metadata_r220.tar.gz"
+
+        self.run_cmd([
+            "python", "ncbi-gtdb_map.py","-q", "gtdb_taxonomy",
+            self.gtdb_taxon_tsv,
+            "-c", "gtdb_taxonomy",
+            f'{gtdb_link_ar} {gtdb_link_bac}'
+        ])
 
 class ReferenceDownloadWrapper():
     pass
@@ -121,4 +135,5 @@ class ReferenceDownloadWrapper():
 if __name__ == "__main__":
 
     wrapper = SylphWrapper()
-    wrapper.get_gtdb_database(name="r214", c_val=200)
+    # wrapper.get_gtdb_database(name="r214", c_val=200)
+    wrapper.convert_taxonomy_gtdb_to_ncbi('./github_sample_gtdb_tax.sylphmpa')
