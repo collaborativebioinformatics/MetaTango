@@ -30,16 +30,24 @@ In order to effectively evaluate the performance of graph-based and reference-ba
 **Figure 2** Overview of simulation process
 
 #### Initial taxonomic classification and reference selection
-In order to perform reference-based SV detection and be able to anchor graph-based methods, it is necessary to initially identify a set of references. To do this, we ran Sylph[CITE] on our reads to get an initial true positive set of species. Then, for each species, we pulled the reference from NCBI to get a final set of reference genomes to map to.  
+In order to perform reference-based SV detection and be able to anchor graph-based methods, it is necessary to initially identify a set of references. To do this, we ran Sylph (Shaw & Yu, 2025) on our reads to get an initial true positive set of species. Then, for each species, we pulled the reference from NCBI to get a final set of reference genomes to map to.  
 
 #### Reference-based SV detection
-For reference-based SV detection, we used a common framework. First, we mapped all reads using Minimap2 to the set of reference genomes identified with Sylph. Then, we used Sniffles2 to call SVs for each reference and returned a VCF for each of them. 
+For reference-based SV detection, we used a common framework. First, we mapped all reads using Minimap2 (Li 2018; Li 2021) to the set of reference genomes identified with Sylph. Then, we used Sniffles2 (Smolka et al. 2024) to call SVs for each reference and returned a VCF for each of them. 
 
 #### Graph-based SV detection
-Raw longitudinal samples were input into Rhea[CITE] for the graph based SV detection. Rhea first creates a co-assembly graph of all longitudinal samples before re-mapping each sample individually back to the graph. The software then detects logfold changes for certain nodes contained in structures that correspond to different forms of structural variants (insertions, deletions, tandem repeats, etc). Rhea does not return a VCF, but rather a list of structural variants and the edges responsible for those variants. Therefore, for each structural variants detected, we backtracked into the assembly graph to get the specific sequence of the structural variant. Because an assembly graph does not provide any positional information relative to a reference, we then mapped the sequences against the reference genomes using Minimap2[CITE] in order to gain start and end positions for each structural variant. If a SV did not map to any reference, we noted this as well.  
+Raw longitudinal samples were input into Rhea (Curry et al., 2024) for the graph based SV detection. Rhea first creates a co-assembly graph of all longitudinal samples before re-mapping each sample individually back to the graph. The software then detects logfold changes for certain nodes contained in structures that correspond to different forms of structural variants (insertions, deletions, tandem repeats, etc). Rhea does not return a VCF, but rather a list of structural variants and the edges responsible for those variants. Therefore, for each structural variants detected, we backtracked into the assembly graph to get the specific sequence of the structural variant. Because an assembly graph does not provide any positional information relative to a reference, we then mapped the sequences against the reference genomes using Minimap2 in order to gain start and end positions for each structural variant. If a SV did not map to any reference, we noted this as well.  
 
 
 ### Running MetaTango
 
 
 ### Results
+
+
+### References
+Curry, K. D., Yu, F. B., Vance, S. E., Segarra, S., Bhaya, D., Chikhi, R., Rocha, E. P. C., & Treangen, T. J. (2024). Reference-free structural variant detection in microbiomes via long-read co-assembly graphs. Bioinformatics (Oxford, England), 40(Suppl 1), i58–i67.
+Li, H. (2018). Minimap2: pairwise alignment for nucleotide sequences. Bioinformatics (Oxford, England), 34(18), 3094–3100.
+Li, H. (2021). New strategies to improve minimap2 alignment accuracy. Bioinformatics (Oxford, England), 37(23), 4572–4574.
+Shaw, J., & Yu, Y. W. (2025). Rapid species-level metagenome profiling and containment estimation with sylph. Nature Biotechnology, 43(8), 1348–1359.
+Smolka, M., Paulin, L. F., Grochowski, C. M., Horner, D. W., Mahmoud, M., Behera, S., Kalef-Ezra, E., Gandhi, M., Hong, K., Pehlivan, D., Scholz, S. W., Carvalho, C. M. B., Proukakis, C., & Sedlazeck, F. J. (2024). Publisher Correction: Detection of mosaic and population-level structural variants with Sniffles2. Nature Biotechnology, 42(10), 1616.
