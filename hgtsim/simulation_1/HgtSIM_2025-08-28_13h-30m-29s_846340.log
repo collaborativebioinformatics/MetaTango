@@ -1,0 +1,11 @@
+[2025-08-28 13:30:29] Running random mutation
+[2025-08-28 13:30:30] Mutants sequences exported to file: input_sequence_mutant_nc.fasta
+[2025-08-28 13:30:30] Calculating nc identity (by BlastN)
+[2025-08-28 13:30:30] Calculating aa identity (by BlastP)
+[2025-08-28 13:30:30] Mutation report exported to file: Step_1_mutation_report.txt
+[2025-08-28 13:30:30] Running random insertion
+[2025-08-28 13:30:30] Dynamic_flanking_seqs set to False
+[2025-08-28 13:30:32] Recombinants exported to folder: Genomes_with_transfers
+[2025-08-28 13:30:32] Insertion report exported to file: Step_2_insertion_report.txt
+[2025-08-28 13:30:32] Deleting temporary files
+[2025-08-28 13:30:32] All done, thanks for using HgtSIM!
