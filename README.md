@@ -46,7 +46,7 @@ Structural variants play a crucial role in microbial evolution and adaptation (h
 ## Methods
 
 ### Simulated and Synthetic Data
-In order to effectively evaluate the performance of graph-based and reference-based SV detection methods, we developed both simulated and synthetic datasets with known horizontal gene transfer events. For simulated data, we initially selected a set of 6 bacterial species (see Table 1) and simulated HGT events for each of them using hgtsim[https://doi.org/10.7717/peerj.4015], resulting in a second set of post-HGT bacterial species. We then simulated Pacbio HiFi reads for longitudinal metagenomic samples containing each of the 6 species using pbsim3[https://doi.org/10.1093/nargab/lqac092], with downstream timepoints having a larger percentage of reads derived from the genomes with simulated HGT events. The first sample contains reads derived solely from the original unmutated set, while each subsequent sample has an increasing proportion of reads derived from the mutated set (see Figure 2). 
+In order to effectively evaluate the performance of graph-based and reference-based SV detection methods, we developed both simulated and synthetic datasets with known horizontal gene transfer events. For simulated data, we initially selected a set of 6 bacterial species (see Table 1) and simulated HGT events for each of them using hgtsim(Song et al., 2017), resulting in a second set of post-HGT bacterial species. We then simulated Pacbio HiFi reads for longitudinal metagenomic samples containing each of the 6 species using pbsim3 (Yukiteru et al., 2022), with downstream timepoints having a larger percentage of reads derived from the genomes with simulated HGT events. The first sample contains reads derived solely from the original unmutated set, while each subsequent sample has an increasing proportion of reads derived from the mutated set (see Figure 2). 
 
 | Bacterial Species                         | Percent abundance | HGT mutation rate |
 |-------------------------------------------|-------------------|-------------------|
@@ -68,15 +68,12 @@ In order to perform reference-based SV detection and be able to anchor graph-bas
 For reference-based SV detection, we used a common framework. First, we mapped all reads using Minimap2 (Li 2018; Li 2021) to the set of reference genomes identified with Sylph. Then, we used Sniffles2 (Smolka et al. 2024) to call SVs for each reference and returned a VCF for each of them. 
 
 ### Graph-based SV detection
-Raw longitudinal samples were input into Rhea (Curry et al., 2024) for the graph based SV detection. Rhea first creates a co-assembly graph of all longitudinal samples before re-mapping each sample individually back to the graph. The software then detects logfold changes for certain nodes contained in structures that correspond to different forms of structural variants (insertions, deletions, tandem repeats, etc). Rhea does not return a VCF, but rather a list of structural variants and the edges responsible for those variants. Therefore, for each structural variants detected, we backtracked into the assembly graph to get the specific sequence of the structural variant. Because an assembly graph does not provide any positional information relative to a reference, we then mapped the sequences against the reference genomes using Minimap2 in order to gain start and end positions for each structural variant. If a SV did not map to any reference, we noted this as well. In addition, we added an HGT detection feature which calls HGT when there is at least one different reference hit among an SV and its neighboring sequences. 
+Raw longitudinal samples were input into Rhea (Curry et al., 2024) for the graph based SV detection. Rhea first creates a co-assembly graph of all longitudinal samples before re-mapping each sample individually back to the graph. The software then detects logfold changes for certain nodes contained in structures that correspond to different forms of structural variants (insertions, deletions, tandem repeats, etc). Rhea does not return a VCF, but rather a list of structural variants and the edges responsible for those variants. Therefore, for each structural variants detected, we backtracked into the assembly graph to get the specific sequence of the structural variant. Because an assembly graph does not provide any positional information relative to a reference, we then mapped the sequences against the reference genomes using Minimap2 in order to gain start and end positions for each structural variant. If a SV did not map to any reference, we noted this as well.  
 
-
+### Comparing simulations with ground truths
+We obtained two sets of VCF files with observed SVs for each SV detection approach. We used the Truvari package for benchmarking SV-calling approaches. Truvari (English et al., 2022) is a comprehensive analysis, annotation and comparison tool optimal for SV discovery. For the purpose of our analysis, we used the Step_2_insertion_report.txt file generated during HGT simulation as the true locations of insertions. Comparing against this background, we validated our SV calls using metrics - Precision (quantifying false-positives), Recall (measuring the number of missed SVs), and F1-Score that summarizes both precision and recall. For an ideal SV detection method, these values are close to 1.
 ## Running MetaTango
-Running Rhea pipeline:
-```bash
-python make_vcf_and_detect_hgts.py t0.fq t1.fq --refs_folder path/to/reference/genomes
-```
-If you would like to change Rhea settings, you can use the flag `--rhea_flags` before adding Rhea flags. 
+
 
 ## Example Results
 
@@ -99,3 +96,7 @@ If you would like to change Rhea settings, you can use the flag `--rhea_flags` b
 5. Smolka, M., Paulin, L. F., Grochowski, C. M., Horner, D. W., Mahmoud, M., Behera, S., Kalef-Ezra, E., Gandhi, M., Hong, K., Pehlivan, D., Scholz, S. W., Carvalho, C. M. B., Proukakis, C., & Sedlazeck, F. J. (2024). Publisher Correction: Detection of mosaic and population-level structural variants with Sniffles2. Nature Biotechnology, 42(10), 1616.
 
 6. Yukiteru Ono, Michiaki Hamada, Kiyoshi Asai, PBSIM3: a simulator for all types of PacBio and ONT long reads, NAR Genomics and Bioinformatics, 4(4), lqac092
+
+7. Song W, Steensen K, Thomas T. HgtSIM: a simulator for horizontal gene transfer (HGT) in microbial communities. PeerJ. 2017 Nov 8;5:e4015
+
+8. English, A.C., Menon, V.K., Gibbs, R.A. et al. Truvari: refined structural variant comparison preserves allelic diversity. Genome Biol 23, 271 (2022)
