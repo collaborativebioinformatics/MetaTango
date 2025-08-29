@@ -46,7 +46,7 @@ Structural variants play a crucial role in microbial evolution and adaptation (h
 ## Methods
 
 ### Simulated and Synthetic Data
-In order to effectively evaluate the performance of graph-based and reference-based SV detection methods, we developed both simulated and synthetic datasets with known horizontal gene transfer events. For simulated data, we initially selected a set of 6 bacterial species (see Table 1) and simulated HGT events for each of them using hgtsim[CITE], resulting in a second set of post-HGT bacterial species. We then simulated Pacbio HiFi reads for longitudinal metagenomic samples containing each of the 6 species using pbsim3[CITE], with downstream timepoints having a larger percentage of reads derived from the genomes with simulated HGT events. The first sample contains reads derived solely from the original unmutated set, while each subsequent sample has an increasing proportion of reads derived from the mutated set (see Figure 2). 
+In order to effectively evaluate the performance of graph-based and reference-based SV detection methods, we developed both simulated and synthetic datasets with known horizontal gene transfer events. For simulated data, we initially selected a set of 6 bacterial species (see Table 1) and simulated HGT events for each of them using hgtsim[https://doi.org/10.7717/peerj.4015], resulting in a second set of post-HGT bacterial species. We then simulated Pacbio HiFi reads for longitudinal metagenomic samples containing each of the 6 species using pbsim3[https://doi.org/10.1093/nargab/lqac092], with downstream timepoints having a larger percentage of reads derived from the genomes with simulated HGT events. The first sample contains reads derived solely from the original unmutated set, while each subsequent sample has an increasing proportion of reads derived from the mutated set (see Figure 2). 
 
 | Bacterial Species                         | Percent abundance | HGT mutation rate |
 |-------------------------------------------|-------------------|-------------------|
@@ -93,3 +93,5 @@ Raw longitudinal samples were input into Rhea (Curry et al., 2024) for the graph
 4. Shaw, J., & Yu, Y. W. (2025). Rapid species-level metagenome profiling and containment estimation with sylph. Nature Biotechnology, 43(8), 1348–1359.
 
 5. Smolka, M., Paulin, L. F., Grochowski, C. M., Horner, D. W., Mahmoud, M., Behera, S., Kalef-Ezra, E., Gandhi, M., Hong, K., Pehlivan, D., Scholz, S. W., Carvalho, C. M. B., Proukakis, C., & Sedlazeck, F. J. (2024). Publisher Correction: Detection of mosaic and population-level structural variants with Sniffles2. Nature Biotechnology, 42(10), 1616.
+
+6. Yukiteru Ono, Michiaki Hamada, Kiyoshi Asai, PBSIM3: a simulator for all types of PacBio and ONT long reads, NAR Genomics and Bioinformatics, 4(4), lqac092
