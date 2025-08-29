@@ -1,0 +1,58 @@
+2025-08-29 23:13:35,361 [INFO] Truvari v5.3.0
+2025-08-29 23:13:35,361 [INFO] Command /Users/mac/miniconda3/envs/metatango/bin/truvari bench -b sim3_ground_truth.vcf.gz -c rhea_t2_t3.vcf.gz -o sniffles_vs_rhea_t3/ -f all_refs.fasta --sizemin 50 --pctseq 0 --pctsize 0.5 --typeignore --pick multi
+2025-08-29 23:13:35,361 [INFO] Params:
+{
+    "base": "/Users/mac/mbru/test/sim3_ground_truth.vcf.gz",
+    "comp": "/Users/mac/mbru/test/rhea_t2_t3.vcf.gz",
+    "output": "sniffles_vs_rhea_t3/",
+    "includebed": null,
+    "extend": 0,
+    "debug": false,
+    "reference": "/Users/mac/mbru/test/all_refs.fasta",
+    "refdist": 500,
+    "pctseq": 0.0,
+    "pctsize": 0.5,
+    "pctovl": 0.0,
+    "typeignore": true,
+    "no_roll": true,
+    "chunksize": 1000,
+    "bSample": "SAMPLE",
+    "cSample": null,
+    "dup_to_ins": false,
+    "bnddist": 100,
+    "sizemin": 50,
+    "sizefilt": 30,
+    "sizemax": 50000,
+    "passonly": false,
+    "no_ref": false,
+    "pick": "multi",
+    "ignore_monref": true,
+    "check_multi": true,
+    "check_monref": true,
+    "no_single_bnd": true,
+    "write_resolved": false,
+    "decompose": true,
+    "short_circuit": false,
+    "skip_gt": true,
+    "max_resolve": 25000
+}
+2025-08-29 23:13:35,449 [INFO] Zipped 436 variants Counter({'comp': 376, 'base': 60})
+2025-08-29 23:13:35,449 [INFO] 264 chunks of 436 variants Counter({'comp': 327, 'base': 60, '__filtered': 49})
+2025-08-29 23:13:35,473 [INFO] Stats: {
+    "TP-base": 0,
+    "TP-comp": 0,
+    "FP": 327,
+    "FN": 60,
+    "precision": 0.0,
+    "recall": 0.0,
+    "f1": null,
+    "base cnt": 60,
+    "comp cnt": 327,
+    "TP-comp_TP-gt": 0,
+    "TP-comp_FP-gt": 0,
+    "TP-base_TP-gt": 0,
+    "TP-base_FP-gt": 0,
+    "gt_concordance": 0,
+    "gt_matrix": {}
+}
+2025-08-29 23:13:35,473 [INFO] Finished bench
